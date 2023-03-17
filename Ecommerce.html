@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MY E-COMMERCE WEBSITE</title>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #c07680;
+      }
+      nav > div {
+        align-items: center;
+        display: flex;
+        justify-content: space-evenly;
+        text-align: center;
+      }
+      nav > div > p {
+        margin: 10px;
+        color: white;
+      }
+      nav > div:nth-child(2) > p {
+        font-size: 10px;
+        color: #e8eaee;
+      }
+      nav > div:nth-child(2) > p>span {
+        font-size: 24px;
+        font-weight: 700;
+      }
+      p:hover,.active {
+        color: #f3f4f6;
+      }
+      #section-4{
+        flex-direction: column;
+      }
+      #section-2,#section-3,#section-4{
+          display: none;
+      }
+      .left{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          margin: 20vh;
+          
+      }
+      .left input,.left button{
+width: 180px;
+margin: 10px;
+height: 5vh;
+      }
+      #addedProducts,#cartt {
+       display: grid;
+grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+      .prods,#cartt>div{
+        margin: 3vw;
+        text-align: center;
+        width: 19vw;
+        height: 28vw;
+      }
+      img {
+        border: 1px solid #f2f3f5;
+        height:19vw;
+        width: 100%;
+        border-bottom-right-radius:40px ;
+        border-top-left-radius:40px ;
+      }
+      #cart>span{
+        color :#3c4858;
+      }
+      #promocode{
+        display: flex;
+        justify-content: center;
+      }
+      .check{
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #3c4858;
+      }
+      footer{
+        width: 100vw;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+      }
+      footer>p{
+margin: 5px;
+color: #3c4858;
+      }
+      .content{
+        color: #3c4858;
+        margin: 5px;
+        text-align: center;
+      }
+      .content>h2{
+        margin: 15px;
+      }
+      .help{
+        display: block;
+        position: absolute;
+        bottom: 40px;
+color: #3c4858;
+margin: 5px;
+      }
+      .help span{
+        color: black;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <nav>
+        <div>
+          <p id="home" onclick="homepage() "class="active">HOME</p>
+          <p id="shop"  onclick="showProduct()">VIEW PRODUCTS</p>
+        </div>
+        <div>
+          <p>MY E-COMMERCE <br /><span>WEBSITE</span></p>
+        </div>
+        <div>
+          <p id="product" onclick="pro()" >ADD PRODUCTS</p>
+          <p id="cart" onclick="showCart()">CART <span id="sp"></span></p>
+        </div>
+      </nav>
+      <div id="section-1">
+        <div class="content">
+          <h2>A Part of Masai School Curriculum</h2>
+          <p>
+            This single page web application is the part of assignment given by Masai School. I have only used HTML, CSS and basic JavaScript DOM manipulation to create it.<br/>Thank You...
+          </p>
+        </div>
+        <div class="help">
+            <p>Click on <span>VIEW PRODUCTS</span> on nav-bar to view Products.</p>
+            <p>Click on <span>ADD PRODUCTS</span> on nav-bar to add Products.<p>
+            <p>Click on <span>CART</span> on nav-bar to view Products present in cart.<p>
+        </div>
+         <footer>
+      <p>--Created by Somesh Kumar Yadav--</p>
+    </footer>
+      </div>
+      <div id="section-2">
+        <div id="addedProducts"></div>
+      </div>
+      <div id="section-3" >
+<div class="left">
+    <input type="text" placeholder="Name" id="name">
+    <input type="number" placeholder="Price" id="price">
+    <input type="text" placeholder="Image URL" id="url">
+    <button onclick="addProduct()">Add Product</button>
+</div>
+      </div>
+      <div id="section-4">
+        <div id="promo">
+          <input type="text" id="promocode" placeholder="Promocode (Optional)">
+          <button id="checkout" onclick="applyPromo()">Apply Promocode</button>
+          <button onclick="checkout()">Checkout<span id="pri"></span></button>
+        </div>
+        <div id="cartt"></div>
+      </div>
+   
+  </body>
+</html>
+<script>
+  let home = document.getElementById("home");
+  let shop = document.getElementById("shop");
+  let product = document.getElementById("product");
+  let cart = document.getElementById("cart");
+  let sec1 = document.getElementById("section-1");
+  let sec2 = document.getElementById("section-2");
+  let sec3 = document.getElementById("section-3");
+  let sec4 = document.getElementById("section-4");
+  let c = document.querySelector("#sp");
+  let pri = document.getElementById("pri");
+  let s = true;
+  
+  function applyPromo(){
+    let promocode = document.getElementById("promocode").value;
+console.log(promocode)
+    if(promocode=="masai30"&&s){
+      pri.innerHTML=`<p style="text-decoration:line-through;display:inline"> Rs.${total_price}</p><p style="display:inline"> Rs.${Math.round(total_price*0.7)}</p> `;
+      alert("You got discount of 30% by applying this promocode")
+      s= false;
+    }else if(promocode=="masai30"){
+alert("You have already applied for promocode")
+    }else{
+      alert("Promocode Invalid")
+    }
+  }
+  let d = JSON.parse(localStorage.getItem("carts"));
+ let n=0;
+ let count = 0;
+ if(d!=null) { 
+   count = d.length;
+n=d.length
+}
+  let total_price=0;
+  c.textContent=`+${count}`
+  for(let i =0;i<n;i++){
+    total_price+=Number(d[i].price);
+  }
+pri.textContent=` Rs.${total_price}`;
+  function homepage(){
+    home.style.color = "#3c4858"
+    shop.style.color = "white"
+    product.style.color = "white"
+    cart.style.color = "white"
+    sec1.style.display="block"
+    sec2.style.display="none"
+    sec3.style.display="none"
+    sec4.style.display="none"
+  }
+  function sop(){
+    shop.style.color = "#3c4858"
+    home.style.color = "white"
+    product.style.color = "white"
+    cart.style.color = "white"
+    sec2.style.display="flex"
+    sec3.style.display="none"
+    sec4.style.display="none"
+    sec1.style.display="none"
+  }
+  function pro(){
+   product.style.color = "#3c4858"
+    home.style.color = "white"
+    shop.style.color = "white"
+    cart.style.color = "white"
+    sec3.style.display="block"
+    sec2.style.display="none"
+    sec1.style.display="none"
+    sec4.style.display="none"
+  }
+  function crt(){
+     cart.style.color = "#3c4858"
+    home.style.color = "white"
+    shop.style.color = "white"
+    product.style.color = "white"
+    sec4.style.display="flex"
+    sec2.style.display="none"
+    sec3.style.display="none"
+    sec1.style.display="none"
+  }
+  function addProduct() {
+
+    let name = document.getElementById("name").value;
+    let price = document.getElementById("price").value;
+    let url = document.getElementById("url").value;
+    if(name==""||price==""||url==""){
+      alert("Something is missing...")
+    }else{
+    alert("Product is added")
+    let products = {
+      name: name,
+      price: price,
+      image: url,
+    };
+    let arr;
+    arr = localStorage.getItem("productsAdded");
+    if (arr == null) {
+      arr = [];
+      
+    } else {
+      arr = JSON.parse(arr);
+    }
+    arr.push(products);
+    localStorage.setItem("productsAdded", JSON.stringify(arr));
+  }
+}
+function showProduct() {
+  sop();
+    let data = JSON.parse(localStorage.getItem("productsAdded"));
+    let cont = document.getElementById("addedProducts");
+    cont.innerHTML = null;
+
+    data.forEach(function (el) {
+      var div = document.createElement("div");
+      div.setAttribute("class","prods")
+      var name = document.createElement("p");
+      name.textContent = `Name: ${el.name}`;
+      var price = document.createElement("p");
+      price.textContent = `Price: Rs.${el.price}`;
+      var img = document.createElement("img");
+      img.src = `${el.image}`;
+      let btn = document.createElement("button");
+      btn.textContent = "Add to Cart";
+      btn.onclick = function () {
+        car(el);
+      };
+      div.append(img, name, price, btn);
+      cont.append(div);
+    });
+  }
+  function car(el) {
+    let ar;
+    let v =true;
+    ar = localStorage.getItem("carts");
+    if (ar == null) {
+      ar = [];
+    } else {
+      ar = JSON.parse(ar);
+    }
+    for(let i =0;i<ar.length;i++){
+      if(ar[i].name==el.name&&ar[i].price==el.price&&ar[i].image==el.image){
+        v = false;
+      }
+    }
+    if(v){
+      count +=1;
+      c.textContent=`+${count}`
+      ar.push(el);
+      total_price+=Number(el.price);
+      pri.textContent=` Rs.${total_price}`;
+      localStorage.setItem("carts", JSON.stringify(ar));
+      alert("Product added to cart");
+    }else{
+      alert("Product already in cart");
+    }
+    
+  }
+  function showCart() {
+    crt();
+    let data = JSON.parse(localStorage.getItem("carts"));
+    let cont = document.getElementById("cartt");
+    cont.innerHTML = null;
+
+    data.forEach(function (el) {
+      var div = document.createElement("div");
+      var name = document.createElement("p");
+      name.textContent = `Name: ${el.name}`;
+      var rating = document.createElement("p");
+      rating.textContent = `Price: Rs.${el.price}`;
+      var img = document.createElement("img");
+      img.src = `${el.image}`;
+     
+      div.append(img, name, rating);
+      cont.append(div);
+    });
+    
+  }
+  function checkout(){
+    let co = document.createElement("div");
+    co.setAttribute("class","check");
+    co.innerHTML="<h1>Thank you for purchasing</h1>";
+    document.body.innerHTML = ``;
+    document.body.append(co);
+  }
+</script>
